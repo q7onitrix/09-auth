@@ -1,35 +1,33 @@
-'use client';
-import { useId, useState } from 'react';
-import css from './SignUpPage.module.css';
-import { useRouter } from 'next/navigation';
-import { register, UserRequest } from '@/lib/api/clientApi';
-import { ApiError } from '@/types/note';
-import { useAuthStore } from '@/lib/store/authStore';
+"use client";
+import { useId, useState } from "react";
+import css from "./SignUpPage.module.css";
+import { useRouter } from "next/navigation";
+import { register, UserRequest } from "@/lib/api/clientApi";
+import { ApiError } from "@/types/note";
+import { useAuthStore } from "@/lib/store/authStore";
 
 export default function SignUpPage() {
-  const [error, setError] = useState('');
-  const setUser = useAuthStore(state => state.setUser);
+  const [error, setError] = useState("");
+  const setUser = useAuthStore((state) => state.setUser);
   const signUpId = useId();
   const router = useRouter();
   const handleRegisterSubmit = async (formData: FormData) => {
     try {
       const userData: UserRequest = {
-        email: String(formData.get('email')),
-        password: String(formData.get('password')),
+        email: String(formData.get("email")),
+        password: String(formData.get("password")),
       };
       const user = await register(userData);
       if (user) {
         setUser(user);
-        router.push('/profile');
+        router.push("/profile");
       } else {
-        setError('Invalid email or password');
+        setError("Invalid email or password");
       }
     } catch (error) {
-      setError(
-        (error as ApiError).response?.data?.error ??
-          (error as ApiError).message ??
-          'Oops... some error'
-      );
+      const apiError = error as ApiError;
+
+      setError(apiError.response?.data?.message ?? "Oops... some error");
     }
   };
   return (

@@ -17,3 +17,11 @@ export type NoteTag =
   | "Personal"
   | "Meeting"
   | "Shopping";
+
+export interface ApiError {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+}
