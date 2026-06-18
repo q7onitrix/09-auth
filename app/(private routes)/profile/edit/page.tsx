@@ -28,11 +28,12 @@ export default  function EditProfilePage() {
         setError('Invalid email or password');
       }
     } catch (error) {
-      setError(
-        (error as ApiError).response?.data?.error ??
-          (error as ApiError).message ??
-          'Oops... some error'
-      );
+    const apiError = error as ApiError;
+
+    setError(
+      apiError.response?.data?.message ??
+        "Oops... some error"
+);
     }
   };
   return (
