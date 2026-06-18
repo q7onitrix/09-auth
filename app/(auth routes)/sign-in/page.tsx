@@ -26,11 +26,12 @@ export default function SignInPage() {
         setError('Invalid email or password');
       }
     } catch (error) {
+      const apiError = error as ApiError;
+
       setError(
-        (error as ApiError).response?.data?.error ??
-          (error as ApiError).message ??
-          'Oops... some error'
-      );
+        apiError.response?.data?.message ??
+          "Oops... some error"
+);
     }
   };
   return (
